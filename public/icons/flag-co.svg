@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
+  <!-- Fondo amarillo (mitad superior) -->
+  <rect width="64" height="24" y="0" fill="#FCD116"/>
+  <!-- Franja azul (un cuarto inferior) -->
+  <rect width="64" height="12" y="24" fill="#003893"/>
+  <!-- Franja roja (un cuarto inferior) -->
+  <rect width="64" height="12" y="36" fill="#CE1126"/>
+  <!-- Borde suave -->
+  <rect x="0.5" y="0.5" width="63" height="47" fill="none" stroke="rgba(0,0,0,0.08)" rx="4" ry="4"/>
+</svg>

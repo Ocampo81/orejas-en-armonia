@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
+  <!-- Fondo blanco -->
+  <rect width="64" height="48" fill="#FFFFFF"/>
+
+  <!-- 13 franjas rojas -->
+  <rect y="0"   width="64" height="3.69" fill="#B22234"/>
+  <rect y="7.38" width="64" height="3.69" fill="#B22234"/>
+  <rect y="14.76" width="64" height="3.69" fill="#B22234"/>
+  <rect y="22.14" width="64" height="3.69" fill="#B22234"/>
+  <rect y="29.52" width="64" height="3.69" fill="#B22234"/>
+  <rect y="36.9"  width="64" height="3.69" fill="#B22234"/>
+  <rect y="44.28" width="64" height="3.69" fill="#B22234"/>
+
+  <!-- Cantón azul -->
+  <rect width="28" height="21" x="0" y="0" fill="#3C3B6E"/>
+
+  <!-- Estrellas simplificadas (no 50 exactas, solo patrón visual) -->
+  <g fill="#FFFFFF">
+    <!-- fila 1 -->
+    <circle cx="3.5" cy="3.0" r="0.7"/>
+    <circle cx="7.5" cy="3.0" r="0.7"/>
+    <circle cx="11.5" cy="3.0" r="0.7"/>
+    <circle cx="15.5" cy="3.0" r="0.7"/>
+    <circle cx="19.5" cy="3.0" r="0.7"/>
+    <circle cx="23.5" cy="3.0" r="0.7"/>
+
+    <!-- fila 2 -->
+    <circle cx="5.5" cy="6.0" r="0.7"/>
+    <circle cx="9.5" cy="6.0" r="0.7"/>
+    <circle cx="13.5" cy="6.0" r="0.7"/>
+    <circle cx="17.5" cy="6.0" r="0.7"/>
+    <circle cx="21.5" cy="6.0" r="0.7"/>
+
+    <!-- fila 3 -->
+    <circle cx="3.5" cy="9.0" r="0.7"/>
+    <circle cx="7.5" cy="9.0" r="0.7"/>
+    <circle cx="11.5" cy="9.0" r="0.7"/>
+    <circle cx="15.5" cy="9.0" r="0.7"/>
+    <circle cx="19.5" cy="9.0" r="0.7"/>
+    <circle cx="23.5" cy="9.0" r="0.7"/>
+
+    <!-- fila 4 -->
+    <circle cx="5.5" cy="12.0" r="0.7"/>
+    <circle cx="9.5" cy="12.0" r="0.7"/>
+    <circle cx="13.5" cy="12.0" r="0.7"/>
+    <circle cx="17.5" cy="12.0" r="0.7"/>
+    <circle cx="21.5" cy="12.0" r="0.7"/>
+
+    <!-- fila 5 -->
+    <circle cx="3.5" cy="15.0" r="0.7"/>
+    <circle cx="7.5" cy="15.0" r="0.7"/>
+    <circle cx="11.5" cy="15.0" r="0.7"/>
+    <circle cx="15.5" cy="15.0" r="0.7"/>
+    <circle cx="19.5" cy="15.0" r="0.7"/>
+    <circle cx="23.5" cy="15.0" r="0.7"/>
+  </g>
+
+  <!-- Borde suave -->
+  <rect x="0.5" y="0.5" width="63" height="47" fill="none" stroke="rgba(0,0,0,0.08)" rx="4" ry="4"/>
+</svg>
