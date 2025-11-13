@@ -3,99 +3,70 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin Casos — Orejas en Armonía</title>
+  <title>Admin — Casos antes/después</title>
   <link rel="stylesheet" href="/src/css/styles.css" />
-  <style>
-    .admin-wrap{ width:min(900px,92%); margin:32px auto; }
-    .card{ background:#fff; border:1px solid #eee; border-radius:14px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
-    .grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .thumb{ width:100%; aspect-ratio:3/2; object-fit:cover; border-radius:10px; border:1px solid #eee; }
-    .row{ display:flex; gap:8px; align-items:center; }
-    .muted{ color:var(--muted); }
-    .btn{ padding:10px 14px; border-radius:10px; border:1px solid #e5e7eb; background:#fff; font-weight:700; cursor:pointer; }
-    .btn--brand{ background:var(--brand); color:#fff; border:none; }
-  </style>
 </head>
 <body>
-  <main class="admin-wrap">
-    <h1 style="color:var(--brand)">Casos (Antes/Después)</h1>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="site-brand" href="/src/index.html">
+        <span class="brand-dot"></span>
+        <span>Orejas en <strong>Armonía</strong> — Admin</span>
+      </a>
+    </div>
+  </header>
 
-    <section class="card" style="margin:12px 0 18px">
-      <h3>Subir nuevo caso</h3>
-      <form id="f" class="grid">
-        <div>
-          <label>Antes</label>
-          <input type="file" id="b" accept="image/*" required />
+  <main class="container" style="padding:40px 0 60px;">
+    <h1 style="margin-bottom:1rem; color:var(--brand);">Casos antes / después</h1>
+    <p class="how__lead" style="margin-bottom:1.5rem;">
+      Sube aquí las fotos de cada paciente. El carrusel público se actualizará solo.
+    </p>
+
+    <!-- FORMULARIO -->
+    <section class="contact-card" style="max-width:640px; margin-bottom:2rem;">
+      <form id="case-form" enctype="multipart/form-data">
+        <div class="field">
+          <label for="label">Etiqueta / nombre visible</label>
+          <input id="label" name="label" type="text" placeholder="Ej: Paciente B" />
         </div>
-        <div>
-          <label>Después</label>
-          <input type="file" id="a" accept="image/*" required />
+
+        <div class="field">
+          <label for="before">Foto ANTES *</label>
+          <input id="before" name="before" type="file" accept="image/*" required />
         </div>
-        <div style="grid-column:1 / -1">
-          <label>Etiqueta (opcional)</label>
-          <input type="text" id="label" placeholder="Paciente X" style="width:100%; padding:10px; border:1px solid #e5e7eb; border-radius:10px" />
+
+        <div class="field">
+          <label for="after">Foto DESPUÉS *</label>
+          <input id="after" name="after" type="file" accept="image/*" required />
         </div>
-        <div style="grid-column:1 / -1; display:flex; gap:8px">
-          <button class="btn btn--brand" type="submit">Subir</button>
-          <span id="msg" class="muted"></span>
+
+        <div class="contact-actions">
+          <button type="submit" class="btn">Subir caso</button>
         </div>
+        <p id="case-msg" class="muted" aria-live="polite" style="margin-top:.8rem;"></p>
       </form>
     </section>
 
-    <section class="card">
-      <h3>Casos existentes</h3>
-      <div id="list" class="grid" style="grid-template-columns:1fr 1fr 1fr"></div>
+    <!-- LISTADO -->
+    <section>
+      <h2 style="text-align:left; margin-bottom:.8rem;">Casos existentes</h2>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:.95rem;">
+          <thead>
+            <tr style="background:#f3f4f6;">
+              <th style="padding:8px; text-align:left;">ID</th>
+              <th style="padding:8px; text-align:left;">Etiqueta</th>
+              <th style="padding:8px; text-align:left;">Antes</th>
+              <th style="padding:8px; text-align:left;">Después</th>
+              <th style="padding:8px; text-align:left;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="cases-body"></tbody>
+        </table>
+      </div>
     </section>
   </main>
 
-  <script>
-    const API = "http://127.0.0.1:8000/api/cases";
-    const list = document.getElementById("list");
-    const f = document.getElementById("f");
-    const msg = document.getElementById("msg");
-    const b = document.getElementById("b");
-    const a = document.getElementById("a");
-    const label = document.getElementById("label");
-
-    async function load(){
-      list.innerHTML = "<p class='muted'>Cargando…</p>";
-      const res = await fetch(API);
-      const data = await res.json();
-      list.innerHTML = data.map(c => `
-        <div class="card">
-          <img class="thumb" src="${c.before}" alt="">
-          <img class="thumb" src="${c.after}" alt="" style="margin-top:6px">
-          <div class="row" style="justify-content:space-between; margin-top:8px">
-            <small class="muted">#${c.id} ${c.label || ""}</small>
-            <button class="btn" data-del="${c.id}">Eliminar</button>
-          </div>
-        </div>
-      `).join("");
-      list.querySelectorAll("[data-del]").forEach(btn=>{
-        btn.addEventListener("click", async ()=>{
-          const id = btn.getAttribute("data-del");
-          if (!confirm("Eliminar caso "+id+"?")) return;
-          await fetch(`${API}/${id}`, { method:"DELETE" });
-          load();
-        })
-      });
-    }
-
-    f.addEventListener("submit", async (e)=>{
-      e.preventDefault();
-      msg.textContent = "Subiendo…";
-      const fd = new FormData();
-      fd.append("before", b.files[0]);
-      fd.append("after", a.files[0]);
-      fd.append("label", label.value.trim());
-      const res = await fetch(API, { method:"POST", body: fd });
-      if (!res.ok) { msg.textContent = "Error al subir"; return; }
-      msg.textContent = "Listo ✔";
-      f.reset();
-      load();
-    });
-
-    load();
-  </script>
+  <script src="/src/js/cases-admin.js" type="module"></script>
 </body>
 </html>

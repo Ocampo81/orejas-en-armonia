@@ -4,5 +4,11 @@
     "before": "/public/antes-despues/antes-1.jpg",
     "after": "/public/antes-despues/despues-1.jpg",
     "label": "Paciente B"
+  },
+  {
+    "id": 2,
+    "before": "/public/antes-despues/9b7ed06d595c67a0.jpg",
+    "after": "/public/antes-despues/5b9792dfb22966c4.jpg",
+    "label": "Paciente 2"
   }
 ]
