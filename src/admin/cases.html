@@ -4,7 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin — Casos antes/después</title>
+
+  <!-- Estilos generales del sitio -->
   <link rel="stylesheet" href="/src/css/styles.css" />
+  <!-- Estilos específicos para la vista de casos (admin + mini-editor) -->
+  <link rel="stylesheet" href="/src/css/cases.css" />
 </head>
 <body>
   <header class="site-header">
@@ -13,17 +17,22 @@
         <span class="brand-dot"></span>
         <span>Orejas en <strong>Armonía</strong> — Admin</span>
       </a>
+
+      <!-- Botón volver al inicio -->
+      <a href="/src/index.html" class="btn btn--ghost cases-back-btn">
+        Volver al inicio
+      </a>
     </div>
   </header>
 
-  <main class="container" style="padding:40px 0 60px;">
-    <h1 style="margin-bottom:1rem; color:var(--brand);">Casos antes / después</h1>
-    <p class="how__lead" style="margin-bottom:1.5rem;">
+  <main class="container cases-main">
+    <h1 class="cases-title">Casos antes / después</h1>
+    <p class="how__lead cases-subtitle">
       Sube aquí las fotos de cada paciente. El carrusel público se actualizará solo.
     </p>
 
     <!-- FORMULARIO -->
-    <section class="contact-card" style="max-width:640px; margin-bottom:2rem;">
+    <section class="contact-card cases-form-card">
       <form id="case-form" enctype="multipart/form-data">
         <div class="field">
           <label for="label">Etiqueta / nombre visible</label>
@@ -43,22 +52,22 @@
         <div class="contact-actions">
           <button type="submit" class="btn">Subir caso</button>
         </div>
-        <p id="case-msg" class="muted" aria-live="polite" style="margin-top:.8rem;"></p>
+        <p id="case-msg" class="muted" aria-live="polite"></p>
       </form>
     </section>
 
     <!-- LISTADO -->
     <section>
       <h2 style="text-align:left; margin-bottom:.8rem;">Casos existentes</h2>
-      <div style="overflow-x:auto;">
-        <table style="width:100%; border-collapse:collapse; font-size:.95rem;">
+      <div class="cases-table-wrapper">
+        <table class="cases-table">
           <thead>
-            <tr style="background:#f3f4f6;">
-              <th style="padding:8px; text-align:left;">ID</th>
-              <th style="padding:8px; text-align:left;">Etiqueta</th>
-              <th style="padding:8px; text-align:left;">Antes</th>
-              <th style="padding:8px; text-align:left;">Después</th>
-              <th style="padding:8px; text-align:left;">Acciones</th>
+            <tr>
+              <th>ID</th>
+              <th>Etiqueta</th>
+              <th>Antes</th>
+              <th>Después</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody id="cases-body"></tbody>

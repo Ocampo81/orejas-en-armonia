@@ -1,0 +1,59 @@
+/* =====================================
+   ADMIN CASOS — LAYOUT BÁSICO
+===================================== */
+
+.cases-main{
+  padding:40px 0 60px;
+}
+
+.cases-main > .cases-title{
+  margin-bottom:1rem;
+  color:var(--brand);
+}
+
+.cases-main > .cases-subtitle{
+  margin-bottom:1.5rem;
+}
+
+/* Reutilizamos contact-card pero ajustamos ancho / margen */
+.cases-form-card{
+  max-width:640px;
+  margin-bottom:2rem;
+}
+
+/* Botón "Volver al inicio" en el header admin */
+.cases-back-btn{
+  padding:8px 18px;
+  font-size:.95rem;
+}
+
+/* =====================================
+   TABLA DE CASOS EXISTENTES
+===================================== */
+
+.cases-table-wrapper{
+  overflow-x:auto;
+}
+
+.cases-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.95rem;
+}
+
+.cases-table thead tr{
+  background:#f3f4f6;
+}
+
+.cases-table th,
+.cases-table td{
+  padding:8px;
+  text-align:left;
+}
+
+/* =====================================
+   MINI-EDITOR (RESERVADO)
+   Aquí más adelante metemos todo el CSS
+   del editor de zoom/posición antes/después.
+===================================== */
+/* (vacío por ahora) */

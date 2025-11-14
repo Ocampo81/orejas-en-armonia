@@ -1,0 +1,68 @@
+<section id="contacto" class="container reveal reveal--up">
+  <h2 data-i18n="contact.title">Consulta rápida</h2>
+
+  <form id="lead-form" class="contact-card" novalidate>
+    <div class="field">
+      <label for="lead-name" data-i18n="contact.label.name">Nombre *</label>
+      <input
+        id="lead-name"
+        name="name"
+        type="text"
+        required
+        minlength="2"
+        autocomplete="name"
+        placeholder="Tu nombre"
+        data-i18n-placeholder="contact.placeholder.name"
+      />
+      <small class="err" data-err-for="name" aria-live="polite"></small>
+    </div>
+
+    <div class="field">
+      <label for="lead-country" data-i18n="contact.label.country">País *</label>
+      <div class="select-wrap">
+        <select id="lead-country" name="country" required>
+          <option value="" disabled selected>Cargando países…</option>
+        </select>
+        <span class="select-caret" aria-hidden="true"></span>
+      </div>
+      <small class="err" data-err-for="country" aria-live="polite"></small>
+    </div>
+
+    <div class="field">
+      <label for="lead-wa" data-i18n="contact.label.phone">Número WhatsApp *</label>
+      <div class="phone-row">
+        <span class="dial-badge" id="dial-badge">+57</span>
+        <input
+          id="lead-wa"
+          name="whatsapp"
+          type="tel"
+          required
+          minlength="6"
+          maxlength="12"
+          placeholder="Ingresa tu número sin prefijo"
+          inputmode="tel"
+          data-i18n-placeholder="contact.placeholder.phone"
+        />
+      </div>
+      <small class="err" data-err-for="phone" aria-live="polite"></small>
+    </div>
+
+    <div class="field">
+      <label for="lead-msg" data-i18n="contact.label.message">Mensaje</label>
+      <textarea
+        id="lead-msg"
+        name="message"
+        rows="4"
+        placeholder="Tu caso o duda"
+        data-i18n-placeholder="contact.placeholder.message"
+      ></textarea>
+    </div>
+
+    <button id="lead-submit" type="submit" class="btn" data-i18n="contact.submit">
+      Enviar
+    </button>
+    <p class="muted" aria-live="polite" data-i18n="contact.note">
+      Respondemos por WhatsApp en horario laboral.
+    </p>
+  </form>
+</section>
