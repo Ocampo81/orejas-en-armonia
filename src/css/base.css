@@ -114,3 +114,43 @@ main h2::after{
   color:var(--muted); 
   text-align:center; 
 }
+
+/* =====================================
+   CTA CON REBOTE PERIÓDICO
+   (aplica a cualquier .btn-bounce)
+===================================== */
+
+/* Animación: está quieto la mayor parte del tiempo,
+   y entre el segundo 4 y 5 hace dos saltos. Duración 6s. */
+@keyframes btn-bounce-cta {
+  0%, 65%, 100% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(-14px);
+  }
+  75% {
+    transform: translateY(0);
+  }
+  80% {
+    transform: translateY(-8px);
+  }
+  85% {
+    transform: translateY(0);
+  }
+}
+
+/* Cualquier botón con esta clase “respira” solo */
+.btn-bounce{
+  animation-name: btn-bounce-cta;
+  animation-duration: 6s;          /* ciclo completo */
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform-origin: center;
+}
+
+/* Al pasar el mouse, pausamos la animación.
+   El :hover normal de .btn se sigue aplicando. */
+.btn-bounce:hover{
+  animation-play-state: paused;
+}
