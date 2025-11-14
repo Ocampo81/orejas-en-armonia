@@ -1,0 +1,124 @@
+/* Estilos específicos para el login de admin */
+
+body.admin-login {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.admin-login .login-wrapper {
+  width: min(420px, 100%);
+  padding: 24px;
+}
+
+.admin-login .login-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px 24px 24px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.16);
+}
+
+.admin-login .login-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.admin-login .login-subtitle {
+  margin: 0 0 24px;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.admin-login .field {
+  margin-bottom: 14px;
+}
+
+.admin-login label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.admin-login input[type="text"],
+.admin-login input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.admin-login input[type="text"]:focus,
+.admin-login input[type="password"]:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(34, 179, 165, 0.2);
+}
+
+.admin-login .login-actions {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-login .btn-primary {
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(34, 179, 165, 0.5);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.admin-login .btn-primary:hover {
+  background: #1a9d90;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(34, 179, 165, 0.55);
+}
+
+.admin-login .btn-secondary {
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.admin-login .error-msg {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #b91c1c;
+  min-height: 1.2em;
+}
+
+.admin-login .login-footer {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.admin-login .login-footer a {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.admin-login .login-footer a:hover {
+  text-decoration: underline;
+}

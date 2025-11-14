@@ -7,32 +7,8 @@
 
   <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
   <link rel="stylesheet" href="/src/css/styles.css" />
-
-  <!-- Estilos específicos de la vista de leads (los que se te “murieron”) -->
-  <style>
-    .admin-wrap{ width:min(1100px,92%); margin:32px auto; }
-    .admin-top{ display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap; margin-bottom:14px; }
-    .admin-actions{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-    .search,.select,.date,.size{ padding:10px 12px; border:1px solid #e5e7eb; border-radius:10px }
-    .search{ min-width:220px; max-width:320px; }
-    .select,.date,.size{ background:#fff }
-    .btn-sm{ padding:10px 14px; border-radius:10px; background:var(--brand); color:#fff; font-weight:700; border:none; cursor:pointer; }
-    .btn-sm--ghost{ background:#fff; color:var(--brand); border:1px solid rgba(34,179,165,.35); }
-    .pill{ font-size:12px; font-weight:800; color:#0f766e; background:var(--gray-soft); border:1px solid #d9d9d9; padding:4px 8px; border-radius:999px; }
-    .admin-card{ background:#fff; border:1px solid #eee; border-radius:16px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
-    .tbl{ width:100%; border-collapse:collapse; font-size:14px; }
-    .tbl th,.tbl td{ padding:10px 8px; border-bottom:1px solid #eee; vertical-align:top; }
-    .tbl th{ text-align:left; color:var(--brand); font-weight:800; }
-    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
-    .muted-small{ color:var(--muted); font-size:12px; }
-    .nowrap{ white-space:nowrap; }
-    .empty{ text-align:center; color:var(--muted); padding:24px 8px; }
-    .actions-row{ display:flex; gap:6px; flex-wrap:wrap; }
-    .btn-x{ border:1px solid #e5e7eb; background:#fff; color:#374151; padding:6px 10px; border-radius:8px; font-weight:700; cursor:pointer; }
-    .btn-x:hover{ background:#f5f7f8; }
-    .pager{ display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:12px; flex-wrap:wrap; }
-    .pager .group{ display:flex; gap:8px; align-items:center; }
-  </style>
+  <!-- Estilos específicos de la vista de leads -->
+  <link rel="stylesheet" href="/src/css/admin-leads.css" />
 </head>
 <body>
   <!-- HEADER ADMIN COMÚN -->
@@ -74,12 +50,19 @@
 
   <main class="admin-wrap">
     <div class="admin-top">
-      <h1 style="margin:0; color:var(--brand)">Leads</h1>
+      <h1 class="admin-title">Leads</h1>
       <div class="admin-actions">
-        <input id="q" class="search" type="search" placeholder="Buscar por nombre o WhatsApp…" />
+        <input
+          id="q"
+          class="search"
+          type="search"
+          placeholder="Buscar por nombre o WhatsApp…"
+        />
         <select id="source" class="select">
           <option value="">Todas las fuentes</option>
-          <option value="landing-orejas-en-armonia">landing-orejas-en-armonia</option>
+          <option value="landing-orejas-en-armonia">
+            landing-orejas-en-armonia
+          </option>
         </select>
         <input id="from" class="date" type="date" />
         <input id="to" class="date" type="date" />
@@ -90,13 +73,16 @@
           <option value="100">100</option>
         </select>
         <button id="btn-refresh" class="btn-sm" type="button">Aplicar</button>
-        <button id="btn-export" class="btn-sm btn-sm--ghost" type="button">Exportar CSV</button>
+        <button id="btn-export" class="btn-sm btn-sm--ghost" type="button">
+          Exportar CSV
+        </button>
       </div>
     </div>
 
     <div class="admin-card">
-      <div class="muted-small" style="margin-bottom:10px;">
-        Fuente/Source = de dónde llegó el lead (landing, IG, promo, etc.). Fecha en UTC.
+      <div class="muted-small admin-help-intro">
+        Fuente/Source = de dónde llegó el lead (landing, IG, promo, etc.). Fecha
+        en UTC.
       </div>
 
       <table class="tbl" aria-describedby="table-help">
@@ -111,20 +97,26 @@
           </tr>
         </thead>
         <tbody id="leads-tbody">
-          <tr><td colspan="6" class="empty">Cargando…</td></tr>
+          <tr>
+            <td colspan="6" class="empty">Cargando…</td>
+          </tr>
         </tbody>
       </table>
 
       <div class="pager">
         <div id="pager-info" class="muted-small">—</div>
         <div class="group">
-          <button id="prev" class="btn-sm btn-sm--ghost" type="button">Anterior</button>
+          <button id="prev" class="btn-sm btn-sm--ghost" type="button">
+            Anterior
+          </button>
           <span id="page-label" class="muted-small">página 1/1</span>
-          <button id="next" class="btn-sm btn-sm--ghost" type="button">Siguiente</button>
+          <button id="next" class="btn-sm btn-sm--ghost" type="button">
+            Siguiente
+          </button>
         </div>
       </div>
 
-      <p id="table-help" class="muted-small" style="margin-top:10px;">
+      <p id="table-help" class="muted-small admin-help-text">
         Tip: en “Acciones” puedes abrir chat de WhatsApp o copiar el número.
       </p>
     </div>
