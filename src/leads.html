@@ -4,8 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Leads — Orejas en Armonía</title>
+
   <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
   <link rel="stylesheet" href="/src/css/styles.css" />
+
+  <!-- Estilos específicos de la vista de leads (los que se te “murieron”) -->
   <style>
     .admin-wrap{ width:min(1100px,92%); margin:32px auto; }
     .admin-top{ display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap; margin-bottom:14px; }
@@ -32,12 +35,40 @@
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav">
-      <a class="site-brand" href="/src/index.html"><span class="brand-dot"></span><span>Orejas en <strong>Armonía</strong></span></a>
-      <nav class="nav__menu" style="gap:8px">
-        <a class="cta cta--small" href="/src/index.html">Volver al sitio</a>
-      </nav>
+  <!-- HEADER ADMIN COMÚN -->
+  <header class="admin-header">
+    <div class="admin-header-left">
+      <span class="admin-logo-dot"></span>
+      <span>Orejas en <strong>Armonía</strong> — Admin</span>
+    </div>
+    <div class="admin-header-actions">
+      <a
+        href="/src/admin/cases.html"
+        class="admin-header-btn"
+        data-admin-tab="cases"
+      >
+        Casos
+      </a>
+      <a
+        href="/src/leads.html"
+        class="admin-header-btn"
+        data-admin-tab="leads"
+      >
+        Leads
+      </a>
+      <button
+        id="admin-logout-btn"
+        type="button"
+        class="admin-header-btn admin-header-btn--outline"
+      >
+        Cerrar sesión
+      </button>
+      <a
+        href="/src/index.html"
+        class="admin-header-btn admin-header-btn--ghost"
+      >
+        Volver al sitio
+      </a>
     </div>
   </header>
 
@@ -54,12 +85,12 @@
         <input id="to" class="date" type="date" />
         <select id="size" class="size">
           <option value="10">10</option>
-          <option selected value="20">20</option>
+          <option value="20" selected>20</option>
           <option value="50">50</option>
           <option value="100">100</option>
         </select>
-        <button id="btn-refresh" class="btn-sm">Aplicar</button>
-        <button id="btn-export" class="btn-sm btn-sm--ghost">Exportar CSV</button>
+        <button id="btn-refresh" class="btn-sm" type="button">Aplicar</button>
+        <button id="btn-export" class="btn-sm btn-sm--ghost" type="button">Exportar CSV</button>
       </div>
     </div>
 
@@ -100,5 +131,18 @@
   </main>
 
   <script src="/src/js/leads-admin.js" defer></script>
+  <script src="/src/js/admin-auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Proteger ruta
+      requireAdminOrRedirect("/src/admin/login.html");
+      // Wire del logout
+      setupAdminLogout("/src/admin/login.html");
+
+      // Marcar pestaña activa
+      const link = document.querySelector('[data-admin-tab="leads"]');
+      if (link) link.classList.add("admin-header-btn--primary");
+    });
+  </script>
 </body>
 </html>

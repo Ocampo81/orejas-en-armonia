@@ -5,11 +5,17 @@ from datetime import datetime, date
 
 from ..database import get_db
 from .. import models, schemas
+from ..admin_auth import get_admin_from_cookie  # 👈 NUEVO
 
 router = APIRouter(prefix="/leads", tags=["leads"])
 
+
 @router.post("", response_model=schemas.LeadOut, status_code=201)
 def create_lead(payload: schemas.LeadCreate, db: Session = Depends(get_db)):
+    """
+    Endpoint público: lo usa la landing para guardar leads.
+    No requiere autenticación.
+    """
     lead = models.Lead(
         name=payload.name.strip(),
         whatsapp=payload.whatsapp.strip(),
@@ -21,7 +27,12 @@ def create_lead(payload: schemas.LeadCreate, db: Session = Depends(get_db)):
     db.refresh(lead)
     return lead
 
-@router.get("", response_model=schemas.LeadPage)
+
+@router.get(
+    "",
+    response_model=schemas.LeadPage,
+    dependencies=[Depends(get_admin_from_cookie)],  # 👈 SOLO ADMIN
+)
 def list_leads(
     q: str | None = Query(None, description="Busca en nombre, whatsapp o mensaje"),
     source: str | None = Query(None, description="Exacto, p.ej. landing-orejas-en-armonia"),

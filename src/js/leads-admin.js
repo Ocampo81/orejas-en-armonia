@@ -1,3 +1,4 @@
+// src/js/leads-admin.js
 (() => {
   const API = "http://127.0.0.1:8000/api/leads";
 
@@ -16,7 +17,17 @@
   const pageLabel = document.getElementById("page-label");
 
   // Estado
-  const state = { q:"", source:"", from:"", to:"", page:1, size:20, total:0, pages:1, items:[] };
+  const state = {
+    q: "",
+    source: "",
+    from: "",
+    to: "",
+    page: 1,
+    size: 20,
+    total: 0,
+    pages: 1,
+    items: [],
+  };
 
   // Utils
   const fmtDate = (iso) => {
@@ -28,44 +39,77 @@
       const hh = String(d.getUTCHours()).padStart(2, "0");
       const mm = String(d.getUTCMinutes()).padStart(2, "0");
       return `${y}-${m}-${day} ${hh}:${mm} UTC`;
-    } catch { return iso || ""; }
+    } catch {
+      return iso || "";
+    }
   };
-  const waLink = (whatsapp, presetMsg = "Hola, vi tu servicio de orejas en armonía.") => {
+
+  const waLink = (
+    whatsapp,
+    presetMsg = "Hola, vi tu servicio de orejas en armonía."
+  ) => {
     const clean = String(whatsapp).replace(/\s+/g, "");
     const num = clean.startsWith("+") ? clean.slice(1) : clean;
     return `https://wa.me/${num}?text=${encodeURIComponent(presetMsg)}`;
   };
-  const copy = (t) => navigator.clipboard.writeText(t).catch(() => {});
-  const esc = (s) => String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
-  const escAttr = (s) => esc(s).replaceAll("'","&#39;");
-  const debounce = (fn, ms=300) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a),ms); }; };
+
+  const copy = (t) =>
+    navigator.clipboard.writeText(t).catch(() => {
+      /* ignore */
+    });
+
+  const esc = (s) =>
+    String(s)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+
+  const escAttr = (s) => esc(s).replaceAll("'", "&#39;");
+
+  const debounce = (fn, ms = 300) => {
+    let t;
+    return (...a) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...a), ms);
+    };
+  };
 
   function renderRows(list) {
     if (!list.length) {
-      tbody.innerHTML = `<tr><td colspan="6" class="empty">Sin datos</td></tr>`;
+      tbody.innerHTML =
+        `<tr><td colspan="6" class="empty">Sin datos</td></tr>`;
       return;
     }
-    tbody.innerHTML = list.map(l => {
-      const date = fmtDate(l.created_at || "");
-      const walink = waLink(l.whatsapp || "");
-      return `
+
+    tbody.innerHTML = list
+      .map((l) => {
+        const date = fmtDate(l.created_at || "");
+        const walink = waLink(l.whatsapp || "");
+        return `
         <tr>
           <td class="mono nowrap">${date}</td>
           <td>${esc(l.name || "")}</td>
           <td class="mono nowrap">${esc(l.whatsapp || "")}</td>
           <td>${esc((l.message || "").trim())}</td>
-          <td><span class="pill">${esc((l.source || "landing-orejas-en-armonia").trim())}</span></td>
+          <td><span class="pill">${esc(
+            (l.source || "landing-orejas-en-armonia").trim()
+          )}</span></td>
           <td class="actions-row">
             <a class="btn-x" href="${walink}" target="_blank" rel="noopener">WhatsApp</a>
-            <button class="btn-x" data-copy="${escAttr(l.whatsapp || "")}">Copiar</button>
+            <button class="btn-x" data-copy="${escAttr(
+              l.whatsapp || ""
+            )}">Copiar</button>
           </td>
         </tr>`;
-    }).join("");
+      })
+      .join("");
 
-    tbody.querySelectorAll("[data-copy]").forEach(btn => {
+    tbody.querySelectorAll("[data-copy]").forEach((btn) => {
       btn.addEventListener("click", () => {
         copy(btn.getAttribute("data-copy") || "");
-        btn.textContent = "¡Copiado!"; setTimeout(()=>btn.textContent="Copiar", 900);
+        btn.textContent = "¡Copiado!";
+        setTimeout(() => (btn.textContent = "Copiar"), 900);
       });
     });
   }
@@ -91,10 +135,25 @@
   }
 
   async function load() {
-    tbody.innerHTML = `<tr><td colspan="6" class="empty">Cargando…</td></tr>`;
+    tbody.innerHTML =
+      `<tr><td colspan="6" class="empty">Cargando…</td></tr>`;
+
     try {
-      const res = await fetch(buildURL(), { headers: { "Accept":"application/json" } });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const res = await fetch(buildURL(), {
+        headers: { Accept: "application/json" },
+        credentials: "include",          // 👈 MÁGIA: manda la cookie de admin
+      });
+
+      if (res.status === 401) {
+        tbody.innerHTML =
+          `<tr><td colspan="6" class="empty">Sesión expirada. Vuelve a iniciar sesión.</td></tr>`;
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+
       const data = await res.json();
       state.items = data.items || [];
       state.total = data.total || 0;
@@ -103,7 +162,8 @@
       renderPager();
     } catch (e) {
       console.error(e);
-      tbody.innerHTML = `<tr><td colspan="6" class="empty">Error al cargar</td></tr>`;
+      tbody.innerHTML =
+        `<tr><td colspan="6" class="empty">Error al cargar</td></tr>`;
     }
   }
 
@@ -125,29 +185,46 @@
   size.addEventListener("change", apply);
   btnRefresh.addEventListener("click", apply);
 
-  btnPrev.addEventListener("click", () => { if (state.page > 1) { state.page--; load(); } });
-  btnNext.addEventListener("click", () => { if (state.page < state.pages) { state.page++; load(); } });
+  btnPrev.addEventListener("click", () => {
+    if (state.page > 1) {
+      state.page--;
+      load();
+    }
+  });
+
+  btnNext.addEventListener("click", () => {
+    if (state.page < state.pages) {
+      state.page++;
+      load();
+    }
+  });
 
   btnExport.addEventListener("click", () => {
-    const header = ["created_at","name","whatsapp","message","source","id"];
+    const header = ["created_at", "name", "whatsapp", "message", "source", "id"];
     const lines = [header.join(",")];
+
     for (const l of state.items) {
       const row = [
-        (l.created_at || "").replace(/,/g," "),
+        (l.created_at || "").replace(/,/g, " "),
         l.name || "",
         l.whatsapp || "",
-        (l.message || "").replace(/\r?\n/g," ").replace(/,/g," "),
+        (l.message || "").replace(/\r?\n/g, " ").replace(/,/g, " "),
         l.source || "landing-orejas-en-armonia",
-        l.id ?? ""
-      ].map(v => `"${String(v).replaceAll('"','""')}"`);
+        l.id ?? "",
+      ].map((v) => `"${String(v).replaceAll('"', '""')}"`);
       lines.push(row.join(","));
     }
-    const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+
+    const blob = new Blob([lines.join("\n")], {
+      type: "text/csv;charset=utf-8",
+    });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    const ts = new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");
+    const ts = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
     a.download = `leads-${ts}-p${state.page}.csv`;
-    document.body.appendChild(a); a.click(); a.remove();
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   });
 

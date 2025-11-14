@@ -5,22 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin — Casos antes/después</title>
 
-  <!-- Estilos generales del sitio -->
+  <!-- Estilos globales -->
   <link rel="stylesheet" href="/src/css/styles.css" />
-  <!-- Estilos específicos para la vista de casos (admin + mini-editor) -->
+  <!-- Estilos específicos para la vista de casos -->
   <link rel="stylesheet" href="/src/css/cases.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav">
-      <a class="site-brand" href="/src/index.html">
-        <span class="brand-dot"></span>
-        <span>Orejas en <strong>Armonía</strong> — Admin</span>
+  <!-- HEADER ADMIN COMÚN -->
+  <header class="admin-header">
+    <div class="admin-header-left">
+      <span class="admin-logo-dot"></span>
+      <span>Orejas en <strong>Armonía</strong> — Admin</span>
+    </div>
+    <div class="admin-header-actions">
+      <a
+        href="/src/admin/cases.html"
+        class="admin-header-btn"
+        data-admin-tab="cases"
+      >
+        Casos
       </a>
-
-      <!-- Botón volver al inicio -->
-      <a href="/src/index.html" class="btn btn--ghost cases-back-btn">
-        Volver al inicio
+      <a
+        href="/src/leads.html"
+        class="admin-header-btn"
+        data-admin-tab="leads"
+      >
+        Leads
+      </a>
+      <button
+        id="admin-logout-btn"
+        type="button"
+        class="admin-header-btn admin-header-btn--outline"
+      >
+        Cerrar sesión
+      </button>
+      <a
+        href="/src/index.html"
+        class="admin-header-btn admin-header-btn--ghost"
+      >
+        Volver al sitio
       </a>
     </div>
   </header>
@@ -76,6 +99,19 @@
     </section>
   </main>
 
-  <script src="/src/js/cases-admin.js" type="module"></script>
+  <script src="/src/js/cases-admin.js" defer></script>
+  <script src="/src/js/admin-auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Proteger ruta
+      requireAdminOrRedirect("/src/admin/login.html");
+      // Wire del logout
+      setupAdminLogout("/src/admin/login.html");
+
+      // Marcar pestaña activa
+      const link = document.querySelector('[data-admin-tab="cases"]');
+      if (link) link.classList.add("admin-header-btn--primary");
+    });
+  </script>
 </body>
 </html>

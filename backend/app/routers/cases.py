@@ -1,8 +1,10 @@
 # backend/app/routers/cases.py
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from pathlib import Path
 import json, secrets
+
+from ..admin_auth import get_admin_from_cookie  # 👈 NUEVO
 
 router = APIRouter(prefix="/cases", tags=["cases"])
 
@@ -15,24 +17,30 @@ REGISTRY     = PROJECT_ROOT / "public" / "cases.json"
 
 PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
 
+
 def load_cases() -> list[dict]:
     if REGISTRY.exists():
         return json.loads(REGISTRY.read_text(encoding="utf-8"))
     return []
 
+
 def save_cases(data: list[dict]) -> None:
     REGISTRY.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
+
 @router.get("")
 def list_cases():
+    """Lista pública: la usa el carrusel de la landing."""
     return load_cases()
 
-@router.post("", status_code=201)
+
+@router.post("", status_code=201, dependencies=[Depends(get_admin_from_cookie)])
 async def upload_case(
     before: UploadFile = File(...),
     after:  UploadFile = File(...),
     label:  str       = Form("")
 ):
+    """Crear caso: solo admin."""
     # Validar que sean imágenes
     if not before.content_type.startswith("image/") or not after.content_type.startswith("image/"):
         raise HTTPException(400, "Los archivos deben ser imágenes")
@@ -61,8 +69,10 @@ async def upload_case(
     save_cases(cases)
     return new_case
 
-@router.delete("/{case_id}", status_code=204)
+
+@router.delete("/{case_id}", status_code=204, dependencies=[Depends(get_admin_from_cookie)])
 def delete_case(case_id: int):
+    """Eliminar caso: solo admin."""
     cases = load_cases()
     found = next((c for c in cases if c["id"] == case_id), None)
     if not found:
@@ -70,7 +80,7 @@ def delete_case(case_id: int):
 
     # borrar archivos físicos
     for key in ("before", "after"):
-        url = found[key]                      # p.ej. /public/antes-despues/abc.jpg
+        url = found[key]                          # p.ej. /public/antes-despues/abc.jpg
         fs_path = PROJECT_ROOT / url.lstrip("/")  # …/orejas-en-armonia/public/antes-despues/abc.jpg
         if fs_path.exists():
             try:
