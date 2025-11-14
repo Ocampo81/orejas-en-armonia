@@ -1,0 +1,160 @@
+/* =====================================
+   FOOTER
+===================================== */
+.footer{
+  background:var(--gray-soft);
+  padding:32px 0 40px;
+}
+
+.footer-inner{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:24px;
+  padding:24px 28px;
+  border-radius:22px;
+  background:#ffffff;
+  box-shadow:0 10px 30px rgba(15,23,42,.08);
+}
+
+.footer-info{
+  flex:1 1 260px;
+  max-width:440px;
+  font-size:.95rem;
+  color:var(--muted);
+}
+
+.footer-info p + p{
+  margin-top:4px;
+}
+
+.footer-location{
+  font-weight:500;
+  color:var(--fg);
+}
+
+.footer-note{
+  font-size:.9rem;
+}
+
+.footer-map{
+  flex:0 0 320px;
+  max-width:100%;
+}
+
+.footer-map-link{
+  position:relative;
+  display:block;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 10px 26px rgba(15,23,42,.12);
+}
+
+.footer-map iframe{
+  display:block;
+  width:100%;
+  height:230px;
+  border:0;
+  /* 👇 hace que los clics vayan al <a>, no al iframe */
+  pointer-events:none;
+}
+
+
+.footer-map-overlay{
+  position:absolute;
+  left:12px;
+  bottom:12px;
+  padding:6px 14px;
+  border-radius:999px;
+  background:rgba(0,0,0,.55);
+  color:#fff;
+  font-size:.85rem;
+  font-weight:600;
+  pointer-events:none;
+}
+
+.footer-map-link:hover .footer-map-overlay{
+  background:rgba(0,0,0,.78);
+}
+
+.footer a{
+  color:var(--brand);
+  font-weight:700;
+  text-decoration:none;
+}
+.footer a:hover{
+  text-decoration:underline;
+}
+
+/* Footer en pantallas pequeñas */
+@media (max-width: 900px){
+  .footer-inner{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .footer-map{
+    width:100%;
+  }
+
+  .footer-map iframe{
+    height:210px;
+  }
+}
+
+/* =====================================
+   BOTÓN WHATSAPP FLOTANTE (antiguo)
+===================================== */
+.wapp-fab{
+  position:fixed; right:22px; bottom:22px; z-index:999;
+  width:58px; height:58px; border-radius:999px; display:grid; place-items:center;
+  background:#25D366; color:#fff; text-decoration:none;
+  box-shadow:0 8px 20px rgba(0,0,0,.18), inset 0 -6px 14px rgba(0,0,0,.08);
+  transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+.wapp-fab:hover{ transform:translateY(-2px); box-shadow:0 12px 24px rgba(0,0,0,.22); filter:saturate(1.05); }
+.wapp-fab img{ width:26px; height:26px; display:block; }
+
+/* =====================================
+   ICONOS FLOTANTES LATERALES
+===================================== */
+.icon-btn {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  color: #22b3a5;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 26px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.icon-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,.22);
+  background: #f0fffd;
+}
+.icon-btn.wa { color: #25D366; }
+.icon-btn.mail { color: #ff5a5a; }
+.icon-btn.ig { color: #d62976; }
+
+.float-left-icons {
+  position: fixed;
+  left: 22px;
+  bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 9999;
+}
+.float-right-icons {
+  position: fixed;
+  right: 22px;
+  bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 9999;
+}
