@@ -21,12 +21,6 @@
   margin-bottom:2rem;
 }
 
-/* Botón "Volver al inicio" en el header admin */
-.cases-back-btn{
-  padding:8px 18px;
-  font-size:.95rem;
-}
-
 /* =====================================
    TABLA DE CASOS EXISTENTES
 ===================================== */
@@ -52,7 +46,162 @@
 }
 
 /* =====================================
-   MINI-EDITOR (RESERVADO)
-   Aquí más adelante metemos el CSS
-   del editor de zoom/posición antes/después.
+   EDITOR ANTES / DESPUÉS (ADMIN)
 ===================================== */
+
+.cases-editor{
+  margin-bottom:2.5rem;
+  padding:22px 22px 24px;
+  border-radius:18px;
+  background:#ffffff;
+  box-shadow:0 10px 30px rgba(15,23,42,.06);
+  border:1px solid #e5e7eb;
+}
+
+.cases-editor__title{
+  font-size:1.2rem;
+  font-weight:700;
+  margin-bottom:.25rem;
+  color:var(--brand);
+}
+
+.cases-editor__hint{
+  font-size:.9rem;
+  color:var(--muted);
+  margin-bottom:1rem;
+}
+
+/* Contenedor del slider */
+.ba-editor{
+  margin-bottom:14px;
+}
+
+.ba-editor__viewport{
+  position:relative;
+  width:100%;
+  aspect-ratio: 4 / 3;
+  border-radius:18px;
+  overflow:hidden;
+  background:#020617;
+  box-shadow:0 14px 38px rgba(15,23,42,.24);
+}
+
+/* Imágenes apiladas */
+.ba-editor__img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform-origin:center center;
+  transition:transform .08s linear;
+  user-select:none;
+}
+
+/* El "antes" está debajo del "después" */
+.ba-editor__img--before{
+  z-index:1;
+}
+.ba-editor__img--after{
+  z-index:2;
+}
+
+/* Divider vertical */
+.ba-editor__divider{
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:2px;
+  background:#ffffff;
+  z-index:3;
+  left:50%;
+  transform:translateX(-1px);
+  pointer-events:none;
+}
+
+.ba-editor__handle{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:34px;
+  height:34px;
+  border-radius:999px;
+  background:#ffffff;
+  color:#0f172a;
+  font-size:17px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 6px 16px rgba(15,23,42,.35);
+}
+
+/* Slider horizontal que mueve el corte */
+.ba-editor__slider{
+  width:100%;
+  margin-top:10px;
+}
+
+/* Toolbar de controles */
+.ba-editor__toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 16px;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.ba-editor__group{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.ba-editor__group--wide{
+  flex:1 1 220px;
+}
+
+.ba-editor__label{
+  font-size:.85rem;
+  font-weight:600;
+  color:#4b5563;
+}
+
+/* Botones del editor */
+.ba-editor__btn{
+  border-radius:999px;
+  border:1px solid #d1d5db;
+  padding:6px 12px;
+  font-size:.85rem;
+  font-weight:600;
+  background:#f9fafb;
+  color:#111827;
+  cursor:pointer;
+  transition:background .15s ease, border-color .15s ease, transform .1s ease;
+}
+
+.ba-editor__btn:hover{
+  background:#e5f5f3;
+  transform:translateY(-1px);
+}
+
+.ba-editor__btn--active{
+  background:var(--brand);
+  border-color:var(--brand);
+  color:#ffffff;
+}
+
+.ba-editor__btn--ghost{
+  background:#ffffff;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .cases-editor{
+    padding:18px 16px 20px;
+  }
+  .ba-editor__toolbar{
+    align-items:flex-start;
+  }
+}

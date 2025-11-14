@@ -51,7 +51,11 @@ function createRow(c) {
   btnDel.addEventListener("click", async () => {
     if (!confirm(`¿Eliminar caso #${c.id}?`)) return;
     try {
-      const res = await fetch(`${API_BASE}/${c.id}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE}/${c.id}`, {
+        method: "DELETE",
+        // cuando protejamos el endpoint, solo hay que descomentar:
+        // credentials: "include",
+      });
       if (!res.ok && res.status !== 204) throw new Error("Error eliminando");
       tr.remove();
     } catch (err) {
@@ -68,10 +72,13 @@ function createRow(c) {
 async function loadCases() {
   tbody.innerHTML = "";
   try {
-    const res = await fetch(API_BASE);
+    const res = await fetch(API_BASE, {
+      // igual que arriba: si el GET se protege, se activa esto:
+      // credentials: "include",
+    });
     if (!res.ok) throw new Error("Error al cargar casos");
     const data = await res.json();
-    data.forEach(c => tbody.appendChild(createRow(c)));
+    data.forEach((c) => tbody.appendChild(createRow(c)));
   } catch (err) {
     console.error(err);
     setMsg("No se pudieron cargar los casos", false);
@@ -83,7 +90,9 @@ if (form) {
     e.preventDefault();
     setMsg("Subiendo caso…", true);
 
+    // Partimos del form completo
     const fd = new FormData(form);
+
     const before = fd.get("before");
     const after = fd.get("after");
 
@@ -92,10 +101,29 @@ if (form) {
       return;
     }
 
+    // Si el editor está presente, añadimos sus ajustes al FormData
+    if (typeof window.baEditorGetState === "function") {
+      try {
+        const editorState = window.baEditorGetState() || {};
+        const split = editorState.split ?? 0.5;
+        const beforeSettings = editorState.before || {};
+        const afterSettings = editorState.after || {};
+
+        fd.append("split", String(split));
+        fd.append("before_settings", JSON.stringify(beforeSettings));
+        fd.append("after_settings", JSON.stringify(afterSettings));
+      } catch (err) {
+        console.warn("No se pudo leer el estado del editor:", err);
+        // Si falla, seguimos igual; solo se suben las fotos.
+      }
+    }
+
     try {
       const res = await fetch(API_BASE, {
         method: "POST",
         body: fd,
+        // cuando protejamos este POST, igual:
+        // credentials: "include",
       });
       if (!res.ok) {
         const txt = await res.text();
