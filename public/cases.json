@@ -10,5 +10,22 @@
     "before": "/public/antes-despues/9b7ed06d595c67a0.jpg",
     "after": "/public/antes-despues/5b9792dfb22966c4.jpg",
     "label": "Paciente 2"
+  },
+  {
+    "id": 3,
+    "before": "/public/antes-despues/16e042356f0272f3.jpg",
+    "after": "/public/antes-despues/dff499981868193b.jpg",
+    "label": "paciente 3",
+    "split": 49.14578585719928,
+    "before_settings": {
+      "x": 0.011389521904009586,
+      "y": -0.08115106518332998,
+      "scale": 1.2100000000000002
+    },
+    "after_settings": {
+      "x": 0.010440395078675453,
+      "y": 0.019931840571344207,
+      "scale": 1.3310000000000004
+    }
   }
 ]

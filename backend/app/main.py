@@ -10,16 +10,21 @@ load_dotenv()
 
 from .database import Base, engine
 from . import models  # noqa: F401
+
+# Routers
 from .routers import leads as leads_router
 from .routers import cases as cases_router
+from .routers import testimonials as testimonials_router
 from .admin_auth import router as admin_auth_router
 
-# Crear tablas
+# Crear tablas de SQLAlchemy (solo afecta a modelos que usan Base)
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Orejas en Armonía API")
 
+# ─────────────────────────────────────────────
 # CORS
+# ─────────────────────────────────────────────
 default_origins = ["http://127.0.0.1:5500", "http://localhost:5500"]
 env_origins = [o.strip() for o in os.getenv("CORS_ORIGINS", "").split(",") if o.strip()]
 allow_origins = env_origins or default_origins
@@ -32,9 +37,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Routers normales
+# ─────────────────────────────────────────────
+# Routers API
+# ─────────────────────────────────────────────
 app.include_router(leads_router.router, prefix="/api", tags=["leads"])
 app.include_router(cases_router.router, prefix="/api", tags=["cases"])
+app.include_router(testimonials_router.router, prefix="/api", tags=["testimonials"])
 
 # Router de autenticación admin (quedará /api/admin/...)
 app.include_router(admin_auth_router, prefix="/api", tags=["admin-auth"])

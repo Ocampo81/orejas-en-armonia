@@ -53,7 +53,6 @@ function createRow(c) {
     try {
       const res = await fetch(`${API_BASE}/${c.id}`, {
         method: "DELETE",
-        // cuando protejamos el endpoint, solo hay que descomentar:
         credentials: "include",
       });
       if (!res.ok && res.status !== 204) throw new Error("Error eliminando");
@@ -73,7 +72,6 @@ async function loadCases() {
   tbody.innerHTML = "";
   try {
     const res = await fetch(API_BASE, {
-      // igual que arriba: si el GET se protege, se activa esto:
       credentials: "include",
     });
     if (!res.ok) throw new Error("Error al cargar casos");
@@ -90,7 +88,6 @@ if (form) {
     e.preventDefault();
     setMsg("Subiendo caso…", true);
 
-    // Partimos del form completo
     const fd = new FormData(form);
 
     const before = fd.get("before");
@@ -101,11 +98,11 @@ if (form) {
       return;
     }
 
-    // Si el editor está presente, añadimos sus ajustes al FormData
+    // Ajustes del editor visual
     if (typeof window.baEditorGetState === "function") {
       try {
         const editorState = window.baEditorGetState() || {};
-        const split = editorState.split ?? 0.5;
+        const split = editorState.split ?? 50;
         const beforeSettings = editorState.before || {};
         const afterSettings = editorState.after || {};
 
@@ -114,7 +111,6 @@ if (form) {
         fd.append("after_settings", JSON.stringify(afterSettings));
       } catch (err) {
         console.warn("No se pudo leer el estado del editor:", err);
-        // Si falla, seguimos igual; solo se suben las fotos.
       }
     }
 

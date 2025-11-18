@@ -32,6 +32,7 @@
       >
         Leads
       </a>
+      <a href="/src/admin/testimonials.html" class="admin-header-btn" data-admin-tab="testimonials">Testimonios</a>
       <button
         id="admin-logout-btn"
         type="button"
@@ -83,63 +84,123 @@
     <section class="cases-editor" id="cases-editor">
       <h2 class="cases-editor__title">Previsualización y ajustes</h2>
       <p class="cases-editor__hint">
-        Usa el deslizador para comparar. Selecciona “Antes” o “Después” para mover y hacer zoom
-        en cada foto por separado. Esto solo es una vista previa (no modifica los archivos).
+        Primero ajusta cada foto por separado (zoom y posición). Luego revisa la comparativa final.
+        Esto solo es una vista previa, no modifica los archivos originales.
       </p>
 
       <div class="ba-editor">
-        <div class="ba-editor__viewport" id="ba-editor-viewport">
-          <img
-            id="ba-editor-before"
-            class="ba-editor__img ba-editor__img--before"
-            alt="Foto antes"
-            draggable="false"
-          />
-          <img
-            id="ba-editor-after"
-            class="ba-editor__img ba-editor__img--after"
-            alt="Foto después"
-            draggable="false"
-          />
-          <div class="ba-editor__divider" id="ba-editor-divider">
-            <span class="ba-editor__handle">↔</span>
+        <!-- PANELES DE EDICIÓN INDIVIDUAL -->
+        <div class="ba-editor__pair">
+          <div class="ba-editor__pane">
+            <h3 class="ba-editor__pane-title">Foto ANTES</h3>
+            <div
+              class="ba-editor__viewport"
+              id="ba-editor-before-viewport"
+              data-side="before"
+            >
+              <img
+                id="ba-editor-before"
+                data-ba-side="before"
+                class="ba-editor__img"
+                alt="Foto antes"
+                draggable="false"
+              />
+            </div>
+          </div>
+
+          <div class="ba-editor__pane">
+            <h3 class="ba-editor__pane-title">Foto DESPUÉS</h3>
+            <div
+              class="ba-editor__viewport"
+              id="ba-editor-after-viewport"
+              data-side="after"
+            >
+              <img
+                id="ba-editor-after"
+                data-ba-side="after"
+                class="ba-editor__img"
+                alt="Foto después"
+                draggable="false"
+              />
+            </div>
           </div>
         </div>
 
-        <input
-          id="ba-editor-slider"
-          class="ba-editor__slider"
-          type="range"
-          min="0"
-          max="100"
-          value="50"
-        />
-      </div>
+        <!-- TOOLBAR COMÚN -->
+        <div class="ba-editor__toolbar">
+          <div class="ba-editor__group">
+            <span class="ba-editor__label">Editar:</span>
+            <button
+              type="button"
+              class="ba-editor__btn ba-editor__btn--active"
+              data-side-btn="before"
+            >
+              Antes
+            </button>
+            <button
+              type="button"
+              class="ba-editor__btn"
+              data-side-btn="after"
+            >
+              Después
+            </button>
+          </div>
 
-      <div class="ba-editor__toolbar">
-        <div class="ba-editor__group">
-          <span class="ba-editor__label">Editar:</span>
-          <button type="button" class="ba-editor__btn" data-side="before">
-            Antes
-          </button>
-          <button type="button" class="ba-editor__btn ba-editor__btn--active" data-side="after">
-            Después
-          </button>
+          <div class="ba-editor__group">
+            <span class="ba-editor__label">Zoom:</span>
+            <button type="button" class="ba-editor__btn" data-zoom="out">−</button>
+            <button type="button" class="ba-editor__btn" data-zoom="in">＋</button>
+          </div>
+
+          <div class="ba-editor__group ba-editor__group--wide">
+            <span class="ba-editor__label">
+              Arrastra sobre la foto activa para ajustar la posición.
+            </span>
+            <button
+              type="button"
+              class="ba-editor__btn ba-editor__btn--ghost"
+              id="ba-editor-reset"
+            >
+              Reiniciar vistas
+            </button>
+          </div>
         </div>
 
-        <div class="ba-editor__group">
-          <span class="ba-editor__label">Zoom:</span>
-          <button type="button" class="ba-editor__btn" data-zoom="out">−</button>
-          <button type="button" class="ba-editor__btn" data-zoom="in">＋</button>
-        </div>
+        <!-- VISTA COMPARATIVA FINAL -->
+        <div class="ba-editor__final">
+          <h3 class="ba-editor__final-title">Vista comparativa final</h3>
+          <p class="cases-editor__hint">
+            Así se verá el slider de antes / después en la web. Aquí ya no se edita la foto:
+            solo mueve el control para comprobar que el encuadre quedó bien.
+          </p>
 
-        <div class="ba-editor__group ba-editor__group--wide">
-          <span class="ba-editor__label">
-            Arrastra sobre la imagen para ajustar posición. 
-          </span>
-          <button type="button" class="ba-editor__btn ba-editor__btn--ghost" id="ba-editor-reset">
-            Reiniciar vista
-          </button>
+          <div class="ba-final">
+            <div class="ba-final__wrap">
+              <img
+                id="ba-final-before"
+                data-ba-side="before"
+                class="ba-final__img ba-final__img--before"
+                alt="Foto antes"
+                draggable="false"
+              />
+              <img
+                id="ba-final-after"
+                data-ba-side="after"
+                class="ba-final__img ba-final__img--after"
+                alt="Foto después"
+                draggable="false"
+              />
+              <div class="ba-final__handle" id="ba-final-handle">↔</div>
+            </div>
+            <input
+              id="ba-final-slider"
+              class="ba-final__slider"
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+            />
+          </div>
         </div>
       </div>
     </section>

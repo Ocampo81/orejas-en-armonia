@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Testimonios</title>
+
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+  <link rel="stylesheet" href="/src/css/styles.css" />
+  <link rel="stylesheet" href="/src/css/cases.css" />
+</head>
+
+<body class="admin-body">
+  <!-- HEADER ADMIN -->
+  <header class="admin-header">
+    <div class="admin-header-left">
+      <span class="admin-logo-dot"></span>
+      <span>Orejas en <strong>Armonía</strong> — Admin</span>
+    </div>
+
+    <div class="admin-header-actions">
+      <a
+        href="/src/admin/cases.html"
+        class="admin-header-btn"
+        data-admin-tab="cases"
+      >
+        Casos
+      </a>
+
+      <a
+        href="/src/leads.html"
+        class="admin-header-btn"
+        data-admin-tab="leads"
+      >
+        Leads
+      </a>
+
+      <a
+        href="/src/admin/testimonials.html"
+        class="admin-header-btn"
+        data-admin-tab="testimonials"
+      >
+        Testimonios
+      </a>
+
+      <button
+        id="admin-logout-btn"
+        class="admin-header-btn admin-header-btn--outline"
+        type="button"
+      >
+        Cerrar sesión
+      </button>
+
+      <a
+        href="/src/index.html"
+        class="admin-header-btn admin-header-btn--ghost"
+      >
+        Volver al sitio
+      </a>
+    </div>
+  </header>
+
+  <main class="container cases-main">
+    <h1 class="cases-title">Testimonios</h1>
+    <p class="how__lead cases-subtitle">
+      Administra aquí los testimonios que aparecerán en la landing.
+    </p>
+
+    <!-- FORMULARIO -->
+    <section class="contact-card cases-form-card">
+      <form id="testimonial-form" enctype="multipart/form-data">
+        <div class="field">
+          <label for="name">Nombre *</label>
+          <input id="name" name="name" type="text" required />
+        </div>
+
+        <div class="field">
+          <label for="role">Ocupación / descripción (opcional)</label>
+          <input
+            id="role"
+            name="role"
+            type="text"
+            placeholder="Ej: Estudiante, mamá, paciente..."
+          />
+        </div>
+
+        <div class="field">
+          <label for="text">Testimonio *</label>
+          <textarea id="text" name="text" rows="4" required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="photo">Foto (opcional)</label>
+          <input id="photo" name="photo" type="file" accept="image/*" />
+        </div>
+
+        <div class="contact-actions">
+          <button type="submit" class="btn">Guardar</button>
+        </div>
+
+        <p id="testimonial-msg" class="muted" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- LISTADO -->
+    <section>
+      <h2 style="margin-top:40px; text-align:left;">Testimonios existentes</h2>
+
+      <div class="cases-table-wrapper">
+        <table class="cases-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Foto</th>
+              <th>Texto</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="testimonials-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="/src/js/admin-auth.js"></script>
+  <script src="/src/js/testimonials-admin.js" defer></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // proteger ruta
+      requireAdminOrRedirect("/src/admin/login.html");
+      setupAdminLogout("/src/admin/login.html");
+
+      // marcar pestaña activa
+      const link = document.querySelector('[data-admin-tab="testimonials"]');
+      if (link) link.classList.add("admin-header-btn--primary");
+    });
+  </script>
+</body>
+</html>
