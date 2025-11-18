@@ -54,7 +54,7 @@ function createRow(c) {
       const res = await fetch(`${API_BASE}/${c.id}`, {
         method: "DELETE",
         // cuando protejamos el endpoint, solo hay que descomentar:
-        // credentials: "include",
+        credentials: "include",
       });
       if (!res.ok && res.status !== 204) throw new Error("Error eliminando");
       tr.remove();
@@ -74,7 +74,7 @@ async function loadCases() {
   try {
     const res = await fetch(API_BASE, {
       // igual que arriba: si el GET se protege, se activa esto:
-      // credentials: "include",
+      credentials: "include",
     });
     if (!res.ok) throw new Error("Error al cargar casos");
     const data = await res.json();
@@ -122,8 +122,7 @@ if (form) {
       const res = await fetch(API_BASE, {
         method: "POST",
         body: fd,
-        // cuando protejamos este POST, igual:
-        // credentials: "include",
+        credentials: "include",
       });
       if (!res.ok) {
         const txt = await res.text();
